@@ -1,0 +1,468 @@
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+button {
+  /* background: linear-gradient(to right, #16bffd, #cb3066); */
+  /* background: linear-gradient(to right, #6a3093, #a044ff); */
+  background: #00a6fb;
+  /* border: 2px solid darken(#4137cc, 0%); */
+  border: none;
+  font-weight: 600;
+  color: #eee;
+  border-radius: 8px;
+  padding: 1em;
+  cursor: pointer;
+}
+
+body {
+  /*background: linear-gradient(to right, #000000, #212121);*/
+  background: #222;
+}
+
+.main-windows {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 1em;
+  width: 100%;
+  height: 500px;
+}
+
+.sticker {
+  position: absolute;
+  z-index: 1080;
+}
+
+.sticker_modal {
+  position: fixed;
+  z-index: 1090;
+  width: 450px;
+  height: 150px;
+  padding: 1em;
+  border-radius: 15px;
+  border: 2px solid #222;
+  background: #eee;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: 600;
+}
+
+.sticker_modal img {
+  max-width: 50% !important;
+  width: auto;
+  height: 80px;
+  margin: auto 0;
+}
+
+.sticker_modal ul {
+  list-style-type: none;
+}
+
+.sticker_modal .close_modal {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  cursor: pointer;
+}
+
+.sticker_modal .size_btn {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  right: 1em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sticker_container,
+.filter_container {
+  width: 33%;
+  max-height: 500px;
+  border: 1px solid #eee;
+  margin: 0 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.sticker_container .sticker_container_header,
+.sticker_container .filter_container_header,
+.filter_container .sticker_container_header,
+.filter_container .filter_container_header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.sticker_container .sticker_container_header h3,
+.sticker_container .filter_container_header h3,
+.filter_container .sticker_container_header h3,
+.filter_container .filter_container_header h3 {
+  color: #eee;
+}
+
+.sticker_container .sticker_menu,
+.sticker_container .filter_menu,
+.filter_container .sticker_menu,
+.filter_container .filter_menu {
+  max-width: 100%;
+  -webkit-box-flex: 9;
+      -ms-flex: 9;
+          flex: 9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  overflow-y: scroll;
+  background: #eee;
+}
+
+.sticker_container .sticker_menu .menu_item,
+.sticker_container .filter_menu .menu_item,
+.filter_container .sticker_menu .menu_item,
+.filter_container .filter_menu .menu_item {
+  margin: 1em;
+  height: 75px;
+  width: 75px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.sticker_container .sticker_menu .menu_item:hover,
+.sticker_container .filter_menu .menu_item:hover,
+.filter_container .sticker_menu .menu_item:hover,
+.filter_container .filter_menu .menu_item:hover {
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+.sticker_container .sticker_menu .menu_item img,
+.sticker_container .filter_menu .menu_item img,
+.filter_container .sticker_menu .menu_item img,
+.filter_container .filter_menu .menu_item img {
+  max-height: 75px;
+  max-width: 75px;
+}
+
+.sticker_container .sticker_menu .menu_sticker,
+.sticker_container .filter_menu .menu_sticker,
+.filter_container .sticker_menu .menu_sticker,
+.filter_container .filter_menu .menu_sticker {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.sticker_container .sticker_menu .menu_filter,
+.sticker_container .filter_menu .menu_filter,
+.filter_container .sticker_menu .menu_filter,
+.filter_container .filter_menu .menu_filter {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  word-break: break-word;
+}
+
+.sticker_container .sticker_menu .menu_filter span,
+.sticker_container .filter_menu .menu_filter span,
+.filter_container .sticker_menu .menu_filter span,
+.filter_container .filter_menu .menu_filter span {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #fff;
+}
+
+.toolbar {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 3em 0;
+}
+
+.toolbar .file_container {
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+  font-weight: 600;
+  border-radius: 15px;
+  width: 50%;
+  margin: 0 0.5em;
+  background: #00a6fb;
+  border: none;
+  color: #eee;
+  text-align: center;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.toolbar .file_container [type="file"] {
+  padding: 0.5em;
+  cursor: inherit;
+  display: block;
+  width: 150px;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  text-align: right;
+  top: 0;
+}
+
+.toolbar .file_container [type="file"] {
+  cursor: pointer;
+  width: 150px;
+}
+
+.tool_menu {
+  position: absolute;
+  top: 1em;
+  left: 0;
+  z-index: 2000;
+  width: 40px;
+  height: 240px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border: 2px solid #eee;
+  background: #222;
+  border-radius: 15px;
+  padding: 0.5em;
+}
+
+.round_btn {
+  border-radius: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.tool_menu_item {
+  position: fixed;
+  left: 6em;
+  top: 1em;
+  width: 240px;
+  height: 240px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 2px solid #eee;
+  background: #222;
+  border-radius: 15px;
+  padding: 2em;
+}
+
+.tool_menu_item .close_toolmenu {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  color: #eee;
+  cursor: pointer;
+}
+
+.tool_menu_item .tool_options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 0 1em;
+  height: 100%;
+}
+
+.tool_menu_item .tool_options .round_btn,
+.tool_menu_item .tool_options input {
+  margin-top: 0.5em;
+}
+
+.tool_menu_item .tool_options span {
+  color: #eee;
+  margin-top: auto;
+}
+
+.text_menu {
+  height: 440px;
+}
+
+.text_menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.text_menu .tool_options {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 50%;
+}
+
+.text_menu .tool_options button {
+  margin: 1em 0;
+}
+
+.text_menu .text_size,
+.text_menu .text_color {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: row !important;
+          flex-direction: row !important;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+  height: 20%;
+  margin: 1em 0;
+}
+
+.text_menu .text_size p,
+.text_menu .text_color p {
+  min-width: 100%;
+  display: block;
+  color: #eee;
+  text-align: center;
+}
+
+/* NEWADDEDTEXT */
+.added_text {
+  position: absolute;
+  z-index: 1080;
+  left: 0;
+  top: 0;
+  border-bottom: 1px solid red;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* DONWLOADIMAGE */
+.download_image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2500;
+  width: 100vw;
+  height: 100vh;
+  background: #222;
+  opacity: 1;
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.download_image h3,
+.download_image a {
+  color: #00a6fb;
+}
+
+.download_image .go_back {
+  color: #00a6fb;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.download_image .save_canvas {
+  border: 1px solid red;
+  position: static;
+}
+
+.download_image #save_img {
+  margin: 1em 0;
+}
+
+.download_image .download_image_link {
+  margin: 1em 0;
+  cursor: pointer;
+}
+/*# sourceMappingURL=app.css.map */

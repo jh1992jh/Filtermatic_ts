@@ -1,0 +1,19 @@
+{
+  "name": "filtermatic_ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:ts": "tsc -w",
+    "start:parcel": "parcel index.html",
+    "start": "concurrently npm:start:*"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  }
+}
