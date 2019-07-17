@@ -411,21 +411,17 @@ function () {
             break;
 
           case "dblclick":
-            console.log("double clicked");
-
             _this.deleteSticker(e);
 
             break;
 
           case "mousemove":
-            _this.moveSticker(e); //this.updateStickerCords(e, e.target.id);
-
+            _this.moveSticker(e);
 
             break;
 
           case "mousedown":
             _this.dragging = true;
-            console.log(_this.addedStickers);
 
             _this.updateStickerCords(e, e.target.id);
 
@@ -437,14 +433,13 @@ function () {
 
             _this.updateStickerCords(e, id);
 
-            console.log(e.target.id);
             break;
 
           case "mouseleave":
             _this.dragging = false;
 
           default:
-            console.log(e.type);
+            return;
         }
       };
 
@@ -457,10 +452,29 @@ function () {
     };
 
     this.selectSticker = function (e) {
-      //console.log(e.target.id);
       var sticker = index_1.stickers.filter(function (sticker) {
         return sticker.title === e.target.id;
       });
+      var selectedStickerEl = document.querySelectorAll(".selected_sticker");
+
+      if (selectedStickerEl) {
+        selectedStickerEl.forEach(function (sticker) {
+          sticker.classList.remove("selected_sticker");
+        });
+      }
+
+      var parentStickerElement = e.target.parentElement;
+
+      if (e.target) {
+        if (parentStickerElement.classList.contains("menu_sticker")) {
+          parentStickerElement.classList.add("selected_sticker");
+        }
+      }
+
+      if (e.target.classList.contains("menu_sticker")) {
+        e.target.classList.add("selected_sticker");
+      }
+
       _this.selectedSticker = sticker[0];
     };
 
@@ -480,7 +494,7 @@ function () {
 
       if (menu) {
         _this.stickers.forEach(function (sticker) {
-          menu.innerHTML += "\n            <div class=\"menu_item menu_sticker\" id=\"" + sticker.title + "\">\n              <img src=\"" + sticker.src + "\" id=\"" + sticker.title + "\"/>\n            </div>\n          ";
+          menu.innerHTML += "\n            <div class=\"menu_item menu_sticker\" id=\"" + sticker.title + "\">\n              <img src=\"" + sticker.src + "\" id=\"" + sticker.title + "\" class=\"sticker_img\"/>\n            </div>\n          ";
         });
       }
 
@@ -497,8 +511,7 @@ function () {
           left = _a.left,
           top = _a.top;
 
-      var sticker = e.target; // REMEMBER OFFSET X= 0 , Y = 0, TOP LEFT CORNER
-
+      var sticker = e.target;
       var mouseX = e.clientX - sticker.width / 2;
       var mouseY = e.clientY - sticker.height / 2;
       console.log(mouseX);
@@ -560,7 +573,6 @@ function () {
     };
 
     this.selectModiefiedSticker = function (e) {
-      // console.log(e, e.offsetX, e.offsetY); USE OFFSET PROPS TO TRY TO CALC STICKERS LOCATION TO PROPERLY PLACE IT
       var targetSticker = _this.addedStickers.filter(function (sticker) {
         return sticker.id === e.target.id;
       })[0];
@@ -624,7 +636,6 @@ function () {
         modifyModal_1.style.top = _this.modifiedSticker.y + "px";
         modifyModal_1.style.left = _this.modifiedSticker.x + "px";
         body && body.appendChild(modifyModal_1);
-        var incBtnPos = modifyModal_1.height / 2 - incBtn.height / 2;
         incBtn.style.top = "30%";
         incBtn.style.right = "1em";
         decBtn.style.top = "60%";
@@ -658,9 +669,7 @@ function () {
           var ratio = width / height;
           _this.modifiedSticker.width += 3;
           _this.modifiedSticker.height += 3 * ratio;
-        } //this.modifiedSticker.height += 3;
-        //this.modifiedSticker.width += 3;
-
+        }
 
         stickerWidth.textContent = "width: " + width.toString();
         stickerHeight.textContent = "height: " + height.toFixed().toString();
@@ -868,8 +877,6 @@ function () {
       };
 
       "mousedown mouseup mousemove mouseleave".split(" ").map(function (name) {
-        console.log("Adding listener " + name + " to canvas");
-
         _this.canvas.addEventListener(name, handleEvent, false);
       });
 
@@ -940,14 +947,19 @@ function () {
     this.showToolMenu = null;
     this.paintTool = document.querySelector("#paint_tool");
     this.textTool = document.querySelector("#text_tool");
+    this.infoTool = document.querySelector("#info_tool");
     this.paintToolMenu = document.querySelector("#paint_tool_menu");
     this.textToolMenu = document.querySelector("#text_tool_menu");
+    this.infoToolMenu = document.querySelector("#info_tool_menu");
 
     this.addListeners = function () {
       _this.paintTool && _this.paintTool.addEventListener("click", function (e) {
         return _this.toggleToolMenu(e);
       });
       _this.textTool && _this.textTool.addEventListener("click", function (e) {
+        _this.toggleToolMenu(e);
+      });
+      _this.infoTool && _this.infoTool.addEventListener("click", function (e) {
         _this.toggleToolMenu(e);
       });
       var closeBtns = document.querySelectorAll(".close_toolmenu");
@@ -959,14 +971,18 @@ function () {
     };
 
     this.toggleToolMenu = function (e) {
-      if (e.target && e.target.id === "paint_tool" && _this.paintToolMenu && _this.textToolMenu) {
+      if (e.target && e.target.id === "paint_tool" && _this.paintToolMenu && _this.textToolMenu && _this.infoToolMenu) {
         _this.textToolMenu.style.display = "none";
+        _this.infoToolMenu.style.display = "none";
         _this.paintToolMenu.style.display = "flex";
-      } else if (e.target.id === "text_tool" && _this.paintToolMenu && _this.textToolMenu) {
+      } else if (e.target.id === "text_tool" && _this.paintToolMenu && _this.textToolMenu && _this.infoToolMenu) {
         _this.paintToolMenu.style.display = "none";
+        _this.infoToolMenu.style.display = "none";
         _this.textToolMenu.style.display = "flex";
-      } else if (e.target.className === "close") {
-        console.log(e.target.parentElement);
+      } else if (e.target && e.target.id === "info_tool" && _this.paintToolMenu && _this.textToolMenu && _this.infoToolMenu) {
+        _this.paintToolMenu.style.display = "none";
+        _this.textToolMenu.style.display = "none";
+        _this.infoToolMenu.style.display = "flex";
       }
     };
   }
@@ -1097,7 +1113,6 @@ function () {
           newAddedText.draggable = false;
           body && body.appendChild(newAddedText);
           var newTextDom = document.querySelector("#" + newText.id);
-          console.log(newTextDom);
 
           if (newTextDom) {
             newText.offsetW = newTextDom && newTextDom.offsetWidth;
@@ -1108,7 +1123,6 @@ function () {
 
           _this.addedText.push(newText);
 
-          console.log(newText, _this.addedText);
           _this.textInput.value = "";
         }
       }
@@ -1134,8 +1148,6 @@ function () {
       var updatedText = e.target;
       var mouseX = e.clientX - updatedText.offsetWidth / 2 - e.offsetX / 2;
       var mouseY = e.clientY + updatedText.offsetHeight / 2 - e.offsetY / 2;
-      console.log("clientY: " + e.clientY + ", e.target.offsetHeight / 2: " + updatedText.offsetHeight / 2 + ", e.offsetY: " + e.offsetY);
-      console.log(updatedText.offsetLeft - left, updatedText.offsetTop - top);
 
       var newTexts = _this.addedText.map(function (text) {
         if (id === text.id) {
@@ -1147,7 +1159,6 @@ function () {
       });
 
       _this.addedText = newTexts;
-      console.log(_this.addedText);
     };
 
     this.deleteText = function (id) {
@@ -1202,7 +1213,7 @@ var image = document.querySelector("#canvas-img");
 var addTextBtn = document.querySelector("#add_text_btn");
 var addStickerBtn = document.querySelector("#add_sticker_btn");
 var addFilterBtn = document.querySelector("#add_filter_btn");
-var topTextInput = document.querySelector("#top_text_input"); //const saveNewImage = document.querySelector<HTMLButtonElement>("#save_img");
+var topTextInput = document.querySelector("#top_text_input");
 
 var Canvas =
 /** @class */
@@ -1219,10 +1230,8 @@ function () {
     this.height = 500;
 
     this.setupCanvas = function () {
-      console.log(_this.canvas);
       _this.canvas.width = _this.width;
       _this.canvas.height = _this.height;
-      console.log(ctx);
     };
 
     this.uploadImg = function () {
@@ -1236,16 +1245,6 @@ function () {
         };
       }
     };
-    /*addText = (): void => {
-      const topText = topTextInput && topTextInput.value;
-      if (ctx && topText) {
-        ctx.font = "50px Arial";
-        ctx.fillStyle = "rgba(150, 150, 150, 1)";
-        ctx.fillText(topText, 10, 60);
-        ctx.textAlign = "center";
-      }
-    };*/
-
 
     this.addListeners = function () {
       var saveImageBtn = document.querySelector("#download_img_btn");
@@ -1265,7 +1264,6 @@ function () {
     };
 
     this.saveImage = function () {
-      // TODO: WRITE A FUNCTION TO LOOP TROUGH THE ADDED STICKERS ARRAY AND ADD THE STICKERS TO CANVAS
       var downloadScreen = document.querySelector(".download_image");
       var pixels = ctx && ctx.getImageData(0, 0, _this.canvas.width, _this.canvas.height);
       var saveCanvas = document.querySelector(".save_canvas");
@@ -1281,11 +1279,8 @@ function () {
         }
 
         downloadScreen && downloadScreen.insertBefore(saveCanvas, downloadScreen.childNodes[2]);
-        var link_1 = document.createElement("a"); //link.className = "modalSave";
-        //const image = document.createElement("img");
-        //link.className = "download_image";
-
-        link_1.innerHTML = "Download image"; //link.appendChild(image);
+        var link_1 = document.createElement("a");
+        link_1.innerHTML = "Download image";
 
         var _a = saveCanvas.getBoundingClientRect(),
             left = _a.left,
@@ -1293,8 +1288,7 @@ function () {
 
         console.log("left: " + left, "top: " + top);
         var addedStickers_1 = _this.Stickers.addedStickers;
-        var addedTexts = _this.Text.addedText; // ctx.drawImage(logoSvg, addedStickers[i].x - canvasXbounding, addedStickers[i].y - canvasYbounding, addedStickers[i].width * addedStickers[i].size , addedStickers[i].height * addedStickers[i].size);
-        // console.log(addedTexts, "left: " + left, "top: " + top);
+        var addedTexts = _this.Text.addedText;
 
         if (saveCtx_1 && addedStickers_1.length > 0) {
           var _loop_1 = function _loop_1(i) {
@@ -1304,36 +1298,18 @@ function () {
             logoSvg.onload = function () {
               addedStickers_1[i].x !== undefined && addedStickers_1[i].y !== undefined && saveCtx_1.drawImage(logoSvg, addedStickers_1[i].x, addedStickers_1[i].y, addedStickers_1[i].width, Math.floor(addedStickers_1[i].height));
             };
-
-            console.log(addedStickers_1[i].title + ", x: " + addedStickers_1[i].x + ", y: " + addedStickers_1[i].y + " ");
           };
 
           for (var i = 0; i < addedStickers_1.length; i++) {
             _loop_1(i);
           }
-        } // TODO MAKE WRITING TEXT TO CANVAS WORK!
-
+        }
 
         if (saveCtx_1 && addedTexts.length > 0) {
           for (var i = 0; i < addedTexts.length; i++) {
-            /*
-            addedTexts[i].x !== undefined &&
-              addedTexts[i].y !== undefined &&
-              saveCtx.drawImage(
-                logoSvg,
-                addedTexts[i].x - left - addedTexts[i].width / 2,
-                addedTexts[i].y - top - addedTexts[i].height / 2,
-                addedTexts[i].width,
-                addedTexts[i].height
-              );
-            */
-            console.log(saveCtx_1.measureText(addedTexts[i].text), addedTexts[i].text);
             saveCtx_1.font = addedTexts[i].size + "px Arial";
             saveCtx_1.fillStyle = "" + addedTexts[i].color;
             saveCtx_1.fillText(addedTexts[i].text, addedTexts[i].x, addedTexts[i].y);
-            console.log(saveCanvas); //saveCtx.fillText(addedTexts[i].text, 10, 60);
-
-            console.log(addedTexts[i].text + ", x: " + addedTexts[i].x + ", y: " + addedTexts[i].y + " ");
           }
         }
 
@@ -1357,37 +1333,28 @@ function () {
   return Canvas;
 }();
 
-if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn //saveNewImage
-) {
-    var ctx_1 = canvas.getContext("2d");
-    var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx_1, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx_1), new PaintBrush_1.PaintBrush(canvas, ctx_1), new Text_1.Text(canvas, ctx_1));
-    var toolMenu = new ToolMenu_1.ToolMenu();
-    NewCanvas_1.Text.addListeners();
-    NewCanvas_1.setupCanvas();
-    NewCanvas_1.Stickers.setupStickerMenu();
-    NewCanvas_1.Filters.setupFilterMenu();
-    NewCanvas_1.PaintBrush.addListeners();
-    NewCanvas_1.addListeners();
-    toolMenu.addListeners(); // toolMenu.setupToolMenu();
-
-    imgInput.addEventListener("change", NewCanvas_1.uploadImg); //addTextBtn.addEventListener("click", NewCanvas.addText);
-
-    /*canvas.addEventListener("mousemove", e => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });*/
-
-    canvas.addEventListener("click", function () {
-      return console.log("clickin");
-    });
-    addStickerBtn.addEventListener("click", function () {
-      NewCanvas_1.Stickers.addSticker();
-    });
-    addFilterBtn.addEventListener("click", function () {
-      NewCanvas_1.Filters.addFilter();
-    }); // saveNewImage.addEventListener("click", () => NewCanvas.saveImage());
-    //console.log(canvas.getBoundingClientRect());
-  }
+if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
+  var ctx_1 = canvas.getContext("2d");
+  var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx_1, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx_1), new PaintBrush_1.PaintBrush(canvas, ctx_1), new Text_1.Text(canvas, ctx_1));
+  var toolMenu = new ToolMenu_1.ToolMenu();
+  NewCanvas_1.Text.addListeners();
+  NewCanvas_1.setupCanvas();
+  NewCanvas_1.Stickers.setupStickerMenu();
+  NewCanvas_1.Filters.setupFilterMenu();
+  NewCanvas_1.PaintBrush.addListeners();
+  NewCanvas_1.addListeners();
+  toolMenu.addListeners();
+  imgInput.addEventListener("change", NewCanvas_1.uploadImg);
+  canvas.addEventListener("click", function () {
+    return console.log("clickin");
+  });
+  addStickerBtn.addEventListener("click", function () {
+    NewCanvas_1.Stickers.addSticker();
+  });
+  addFilterBtn.addEventListener("click", function () {
+    NewCanvas_1.Filters.addFilter();
+  });
+}
 },{"./Stickers":"src/Stickers.ts","./stickers/index":"src/stickers/index.ts","./Filters":"src/Filters.ts","./filters/filters":"src/filters/filters.ts","./PaintBrush":"src/PaintBrush.ts","./ToolMenu":"src/ToolMenu.ts","./Text":"src/Text.ts"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1416,7 +1383,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61790" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63214" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

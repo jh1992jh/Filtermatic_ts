@@ -32,28 +32,24 @@ var Stickers = /** @class */ (function () {
                         _this.selectModiefiedSticker(e);
                         break;
                     case "dblclick":
-                        console.log("double clicked");
                         _this.deleteSticker(e);
                         break;
                     case "mousemove":
                         _this.moveSticker(e);
-                        //this.updateStickerCords(e, e.target.id);
                         break;
                     case "mousedown":
                         _this.dragging = true;
-                        console.log(_this.addedStickers);
                         _this.updateStickerCords(e, e.target.id);
                         break;
                     case "mouseup":
                         _this.dragging = false;
                         var id = e.target.id;
                         _this.updateStickerCords(e, id);
-                        console.log(e.target.id);
                         break;
                     case "mouseleave":
                         _this.dragging = false;
                     default:
-                        console.log(e.type);
+                        return;
                 }
             };
             var stickersAdded = document.querySelectorAll(".sticker");
@@ -66,8 +62,22 @@ var Stickers = /** @class */ (function () {
             });
         };
         this.selectSticker = function (e) {
-            //console.log(e.target.id);
             var sticker = index_1.stickers.filter(function (sticker) { return sticker.title === e.target.id; });
+            var selectedStickerEl = document.querySelectorAll(".selected_sticker");
+            if (selectedStickerEl) {
+                selectedStickerEl.forEach(function (sticker) {
+                    sticker.classList.remove("selected_sticker");
+                });
+            }
+            var parentStickerElement = e.target.parentElement;
+            if (e.target) {
+                if (parentStickerElement.classList.contains("menu_sticker")) {
+                    parentStickerElement.classList.add("selected_sticker");
+                }
+            }
+            if (e.target.classList.contains("menu_sticker")) {
+                e.target.classList.add("selected_sticker");
+            }
             _this.selectedSticker = sticker[0];
         };
         this.moveSticker = function (e) {
@@ -83,7 +93,7 @@ var Stickers = /** @class */ (function () {
             var menu = document.querySelector(".sticker_menu");
             if (menu) {
                 _this.stickers.forEach(function (sticker) {
-                    menu.innerHTML += "\n            <div class=\"menu_item menu_sticker\" id=\"" + sticker.title + "\">\n              <img src=\"" + sticker.src + "\" id=\"" + sticker.title + "\"/>\n            </div>\n          ";
+                    menu.innerHTML += "\n            <div class=\"menu_item menu_sticker\" id=\"" + sticker.title + "\">\n              <img src=\"" + sticker.src + "\" id=\"" + sticker.title + "\" class=\"sticker_img\"/>\n            </div>\n          ";
                 });
             }
             var menuStickers = document.querySelectorAll(".menu_sticker");
@@ -94,7 +104,6 @@ var Stickers = /** @class */ (function () {
         this.updateStickerCords = function (e, id) {
             var _a = _this.canvas.getBoundingClientRect(), left = _a.left, top = _a.top;
             var sticker = e.target;
-            // REMEMBER OFFSET X= 0 , Y = 0, TOP LEFT CORNER
             var mouseX = e.clientX - sticker.width / 2;
             var mouseY = e.clientY - sticker.height / 2;
             console.log(mouseX);
@@ -137,7 +146,6 @@ var Stickers = /** @class */ (function () {
             e.target.remove();
         };
         this.selectModiefiedSticker = function (e) {
-            // console.log(e, e.offsetX, e.offsetY); USE OFFSET PROPS TO TRY TO CALC STICKERS LOCATION TO PROPERLY PLACE IT
             var targetSticker = _this.addedStickers.filter(function (sticker) {
                 return sticker.id === e.target.id;
             })[0];
@@ -190,7 +198,6 @@ var Stickers = /** @class */ (function () {
                 modifyModal_1.style.top = _this.modifiedSticker.y + "px";
                 modifyModal_1.style.left = _this.modifiedSticker.x + "px";
                 body && body.appendChild(modifyModal_1);
-                var incBtnPos = modifyModal_1.height / 2 - incBtn.height / 2;
                 incBtn.style.top = "30%";
                 incBtn.style.right = "1em";
                 decBtn.style.top = "60%";
@@ -215,8 +222,6 @@ var Stickers = /** @class */ (function () {
                     _this.modifiedSticker.width += 3;
                     _this.modifiedSticker.height += 3 * ratio;
                 }
-                //this.modifiedSticker.height += 3;
-                //this.modifiedSticker.width += 3;
                 stickerWidth.textContent = "width: " + width.toString();
                 stickerHeight.textContent = "height: " + height.toFixed().toString();
                 sticker.style.height = _this.modifiedSticker.height + "px";

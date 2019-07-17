@@ -95,14 +95,12 @@ var Text = /** @class */ (function () {
                     newAddedText.draggable = false;
                     body && body.appendChild(newAddedText);
                     var newTextDom = document.querySelector("#" + newText.id);
-                    console.log(newTextDom);
                     if (newTextDom) {
                         newText.offsetW = newTextDom && newTextDom.offsetWidth;
                         newText.offsetH = newTextDom && newTextDom.offsetHeight;
                     }
                     _this.addListeners();
                     _this.addedText.push(newText);
-                    console.log(newText, _this.addedText);
                     _this.textInput.value = "";
                 }
             }
@@ -122,9 +120,6 @@ var Text = /** @class */ (function () {
             var updatedText = e.target;
             var mouseX = e.clientX - updatedText.offsetWidth / 2 - e.offsetX / 2;
             var mouseY = e.clientY + updatedText.offsetHeight / 2 - e.offsetY / 2;
-            console.log("clientY: " + e.clientY + ", e.target.offsetHeight / 2: " + updatedText.offsetHeight /
-                2 + ", e.offsetY: " + e.offsetY);
-            console.log(updatedText.offsetLeft - left, updatedText.offsetTop - top);
             var newTexts = _this.addedText.map(function (text) {
                 if (id === text.id) {
                     text.x = updatedText.offsetLeft - left;
@@ -133,7 +128,6 @@ var Text = /** @class */ (function () {
                 return text;
             });
             _this.addedText = newTexts;
-            console.log(_this.addedText);
         };
         this.deleteText = function (id) {
             var filterdTexts = _this.addedText.filter(function (text) {

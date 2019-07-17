@@ -25,12 +25,12 @@
       <button class="round_btn toggle_menu_btn" id="paint_tool">
         <i class="fas fa-paint-brush" id="paint_tool"></i>
       </button>
-      <button class="round_btn toggle_menu_btn">
-        <i class="fas fa-info"></i>
+      <button class="round_btn toggle_menu_btn" id="info_tool">
+        <i class="fas fa-info" id="info_tool"></i>
       </button>
     </div>
     <!-- PAINTBRUSH SETTINGS -->
-    <div class="tool_menu_item" style="display:none" id="paint_tool_menu">
+    <div class="tool_menu_item  paint_options" style="display:none" id="paint_tool_menu">
       <span class="close_toolmenu">X</span>
       <div class="tool_options">
         <button class="round_btn change_bw">5</button>
@@ -74,6 +74,18 @@
       </div>
     </div>
 
+    <!--INFO MENU-->
+    <div
+      class="tool_menu_item info_menu"
+      id="info_tool_menu"
+      style="display:none"
+    >
+      <span class="close_toolmenu">X</span>
+      <div class="tool_options info_options">
+        <h3>Delete Text/Sticker</h3>
+        <p>To Delete A text or sticker double click it.</p>
+      </div>
+    </div>
     <div class="main-windows">
       <div class="sticker_container">
         <header class="sticker_container_header">
@@ -110,7 +122,6 @@
       <h3>Download Image</h3>
       <canvas class="save_canvas"></canvas>
       <a href="#" class="go_back">Go Back</a>
-      
     </div>
     <img src="" id="canvas-img" style="display: none" />
     <script src="./src/index.ts"></script>

@@ -32,28 +32,26 @@ export class Stickers {
           this.selectModiefiedSticker(e);
           break;
         case "dblclick":
-          console.log("double clicked");
           this.deleteSticker(e);
           break;
         case "mousemove":
           this.moveSticker(e);
-          //this.updateStickerCords(e, e.target.id);
           break;
         case "mousedown":
           this.dragging = true;
-          console.log(this.addedStickers);
+
           this.updateStickerCords(e, e.target.id);
           break;
         case "mouseup":
           this.dragging = false;
           const id: string = e.target.id;
           this.updateStickerCords(e, id);
-          console.log(e.target.id);
+
           break;
         case "mouseleave":
           this.dragging = false;
         default:
-          console.log(e.type);
+          return;
       }
     };
     const stickersAdded = document.querySelectorAll(".sticker");
@@ -67,10 +65,28 @@ export class Stickers {
     });
   };
   selectSticker = (e: Event): void => {
-    //console.log(e.target.id);
     const sticker = originalStickers.filter(
       (sticker: ISticker) => sticker.title === (e.target as Element).id
     );
+
+    const selectedStickerEl = document.querySelectorAll(".selected_sticker");
+
+    if (selectedStickerEl) {
+      selectedStickerEl.forEach(sticker => {
+        sticker.classList.remove("selected_sticker");
+      });
+    }
+
+    const parentStickerElement: any = (e.target as Element).parentElement;
+    if (e.target as Element) {
+      if (parentStickerElement.classList.contains("menu_sticker")) {
+        parentStickerElement.classList.add("selected_sticker");
+      }
+    }
+
+    if ((e.target as Element).classList.contains("menu_sticker")) {
+      (e.target as Element).classList.add("selected_sticker");
+    }
 
     this.selectedSticker = sticker[0];
   };
@@ -93,7 +109,9 @@ export class Stickers {
       this.stickers.forEach((sticker: ISticker) => {
         menu.innerHTML += `
             <div class="menu_item menu_sticker" id="${sticker.title}">
-              <img src="${sticker.src}" id="${sticker.title}"/>
+              <img src="${sticker.src}" id="${
+          sticker.title
+        }" class="sticker_img"/>
             </div>
           `;
       });
@@ -109,7 +127,7 @@ export class Stickers {
   updateStickerCords = (e: MouseEvent, id: string): void => {
     const { left, top } = this.canvas.getBoundingClientRect();
     const sticker = e.target as HTMLImageElement;
-    // REMEMBER OFFSET X= 0 , Y = 0, TOP LEFT CORNER
+
     const mouseX = e.clientX - sticker.width / 2;
     const mouseY = e.clientY - sticker.height / 2;
     console.log(mouseX);
@@ -173,7 +191,6 @@ export class Stickers {
   };
 
   selectModiefiedSticker = (e: MouseEvent): void => {
-    // console.log(e, e.offsetX, e.offsetY); USE OFFSET PROPS TO TRY TO CALC STICKERS LOCATION TO PROPERLY PLACE IT
     const targetSticker = this.addedStickers.filter((sticker: ISticker) => {
       return sticker.id === (e.target as Element).id;
     })[0];
@@ -241,8 +258,6 @@ export class Stickers {
 
       body && body.appendChild(modifyModal);
 
-      const incBtnPos = modifyModal.height / 2 - incBtn.height / 2;
-
       incBtn.style.top = `30%`;
       incBtn.style.right = "1em";
       decBtn.style.top = `60%`;
@@ -272,8 +287,6 @@ export class Stickers {
         this.modifiedSticker.width += 3;
         this.modifiedSticker.height += 3 * ratio;
       }
-      //this.modifiedSticker.height += 3;
-      //this.modifiedSticker.width += 3;
 
       stickerWidth.textContent = `width: ${width.toString()}`;
       stickerHeight.textContent = `height: ${height.toFixed().toString()}`;

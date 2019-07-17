@@ -23,14 +23,11 @@ const topTextInput = document.querySelector<HTMLInputElement>(
   "#top_text_input"
 );
 
-//const saveNewImage = document.querySelector<HTMLButtonElement>("#save_img");
-
 class Canvas<T extends HTMLCanvasElement> {
   width: number = 500;
   height: number = 500;
   constructor(
     public canvas: T,
-
     public Stickers: Stickers,
     public Filters: Filters,
     public PaintBrush: PaintBrush,
@@ -38,10 +35,8 @@ class Canvas<T extends HTMLCanvasElement> {
   ) {}
 
   setupCanvas = (): void => {
-    console.log(this.canvas);
     this.canvas.width = this.width;
     this.canvas.height = this.height;
-    console.log(ctx);
   };
 
   uploadImg = (): void => {
@@ -54,16 +49,6 @@ class Canvas<T extends HTMLCanvasElement> {
       };
     }
   };
-
-  /*addText = (): void => {
-    const topText = topTextInput && topTextInput.value;
-    if (ctx && topText) {
-      ctx.font = "50px Arial";
-      ctx.fillStyle = "rgba(150, 150, 150, 1)";
-      ctx.fillText(topText, 10, 60);
-      ctx.textAlign = "center";
-    }
-  };*/
 
   addListeners = (): void => {
     const saveImageBtn = document.querySelector<HTMLButtonElement>(
@@ -89,7 +74,6 @@ class Canvas<T extends HTMLCanvasElement> {
   };
 
   saveImage = (): void => {
-    // TODO: WRITE A FUNCTION TO LOOP TROUGH THE ADDED STICKERS ARRAY AND ADD THE STICKERS TO CANVAS
     const downloadScreen = document.querySelector<HTMLDivElement>(
       ".download_image"
     );
@@ -113,18 +97,14 @@ class Canvas<T extends HTMLCanvasElement> {
         downloadScreen.insertBefore(saveCanvas, downloadScreen.childNodes[2]);
 
       const link = document.createElement("a");
-      //link.className = "modalSave";
-      //const image = document.createElement("img");
-      //link.className = "download_image";
+
       link.innerHTML = "Download image";
-      //link.appendChild(image);
 
       const { left, top } = saveCanvas.getBoundingClientRect();
       console.log("left: " + left, "top: " + top);
       const addedStickers = this.Stickers.addedStickers;
       const addedTexts = this.Text.addedText;
-      // ctx.drawImage(logoSvg, addedStickers[i].x - canvasXbounding, addedStickers[i].y - canvasYbounding, addedStickers[i].width * addedStickers[i].size , addedStickers[i].height * addedStickers[i].size);
-      // console.log(addedTexts, "left: " + left, "top: " + top);
+
       if (saveCtx && addedStickers.length > 0) {
         for (let i = 0; i < addedStickers.length; i++) {
           const logoSvg = new Image();
@@ -140,33 +120,11 @@ class Canvas<T extends HTMLCanvasElement> {
                 Math.floor(addedStickers[i].height)
               );
           };
-          console.log(
-            `${addedStickers[i].title}, x: ${addedStickers[i].x}, y: ${
-              addedStickers[i].y
-            } `
-          );
         }
       }
 
-      // TODO MAKE WRITING TEXT TO CANVAS WORK!
       if (saveCtx && addedTexts.length > 0) {
         for (let i = 0; i < addedTexts.length; i++) {
-          /*
-          addedTexts[i].x !== undefined &&
-            addedTexts[i].y !== undefined &&
-            saveCtx.drawImage(
-              logoSvg,
-              addedTexts[i].x - left - addedTexts[i].width / 2,
-              addedTexts[i].y - top - addedTexts[i].height / 2,
-              addedTexts[i].width,
-              addedTexts[i].height
-            );
-        */
-
-          console.log(
-            saveCtx.measureText(addedTexts[i].text),
-            addedTexts[i].text
-          );
           saveCtx.font = `${addedTexts[i].size}px Arial`;
 
           saveCtx.fillStyle = `${addedTexts[i].color}`;
@@ -174,13 +132,6 @@ class Canvas<T extends HTMLCanvasElement> {
             addedTexts[i].text,
             addedTexts[i].x,
             addedTexts[i].y
-          );
-          console.log(saveCanvas);
-          //saveCtx.fillText(addedTexts[i].text, 10, 60);
-          console.log(
-            `${addedTexts[i].text}, x: ${addedTexts[i].x}, y: ${
-              addedTexts[i].y
-            } `
           );
         }
       }
@@ -205,14 +156,7 @@ class Canvas<T extends HTMLCanvasElement> {
   };
 }
 
-if (
-  canvas &&
-  imgInput &&
-  addTextBtn &&
-  addStickerBtn &&
-  addFilterBtn
-  //saveNewImage
-) {
+if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
   const ctx = canvas.getContext("2d");
   const NewCanvas = new Canvas<HTMLCanvasElement>(
     canvas,
@@ -232,14 +176,9 @@ if (
   NewCanvas.PaintBrush.addListeners();
   NewCanvas.addListeners();
   toolMenu.addListeners();
-  // toolMenu.setupToolMenu();
-  imgInput.addEventListener("change", NewCanvas.uploadImg);
-  //addTextBtn.addEventListener("click", NewCanvas.addText);
 
-  /*canvas.addEventListener("mousemove", e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });*/
+  imgInput.addEventListener("change", NewCanvas.uploadImg);
+
   canvas.addEventListener("click", () => console.log("clickin"));
   addStickerBtn.addEventListener("click", () => {
     NewCanvas.Stickers.addSticker();
@@ -247,6 +186,4 @@ if (
   addFilterBtn.addEventListener("click", () => {
     NewCanvas.Filters.addFilter();
   });
-  // saveNewImage.addEventListener("click", () => NewCanvas.saveImage());
-  //console.log(canvas.getBoundingClientRect());
 }

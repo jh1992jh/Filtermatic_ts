@@ -28,7 +28,6 @@ var PaintBrush = /** @class */ (function () {
                 }
             };
             "mousedown mouseup mousemove mouseleave".split(" ").map(function (name) {
-                console.log("Adding listener " + name + " to canvas");
                 _this.canvas.addEventListener(name, handleEvent, false);
             });
             if (_this.changeWidthBtns) {

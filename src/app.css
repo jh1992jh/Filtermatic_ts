@@ -148,6 +148,13 @@ body {
   background: #eee;
 }
 
+.sticker_container .sticker_menu .selected_sticker,
+.sticker_container .filter_menu .selected_sticker,
+.filter_container .sticker_menu .selected_sticker,
+.filter_container .filter_menu .selected_sticker {
+  background: rgba(0, 0, 0, 0.2);
+}
+
 .sticker_container .sticker_menu .menu_item,
 .sticker_container .filter_menu .menu_item,
 .filter_container .sticker_menu .menu_item,
@@ -355,6 +362,17 @@ body {
   margin-top: auto;
 }
 
+.tool_menu_item .info_options {
+  color: #eee;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.tool_menu_item .info_options h3 {
+  margin: 0;
+}
+
 .text_menu {
   height: 440px;
 }
@@ -403,6 +421,15 @@ body {
   display: block;
   color: #eee;
   text-align: center;
+}
+
+.paint_options {
+  -webkit-box-orient: horizontal !important;
+  -webkit-box-direction: normal !important;
+      -ms-flex-direction: row !important;
+          flex-direction: row !important;
+  -ms-flex-pack: distribute !important;
+      justify-content: space-around !important;
 }
 
 /* NEWADDEDTEXT */

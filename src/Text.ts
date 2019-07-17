@@ -132,7 +132,7 @@ export class Text {
         const newTextDom: HTMLDivElement | null = document.querySelector(
           `#${newText.id}`
         );
-        console.log(newTextDom);
+
         if (newTextDom) {
           newText.offsetW = newTextDom && newTextDom.offsetWidth;
           newText.offsetH = newTextDom && newTextDom.offsetHeight;
@@ -140,7 +140,6 @@ export class Text {
 
         this.addListeners();
         this.addedText.push(newText);
-        console.log(newText, this.addedText);
 
         this.textInput.value = "";
       }
@@ -165,15 +164,6 @@ export class Text {
     const mouseX = e.clientX - updatedText.offsetWidth / 2 - e.offsetX / 2;
     const mouseY = e.clientY + updatedText.offsetHeight / 2 - e.offsetY / 2;
 
-    console.log(
-      `clientY: ${
-        e.clientY
-      }, e.target.offsetHeight / 2: ${updatedText.offsetHeight /
-        2}, e.offsetY: ${e.offsetY}`
-    );
-
-    console.log(updatedText.offsetLeft - left, updatedText.offsetTop - top);
-
     const newTexts = this.addedText.map(
       (text: IText): IText => {
         if (id === text.id) {
@@ -184,7 +174,6 @@ export class Text {
       }
     );
     this.addedText = newTexts;
-    console.log(this.addedText);
   };
 
   deleteText = (id: string) => {

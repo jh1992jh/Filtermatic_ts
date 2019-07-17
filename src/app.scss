@@ -168,6 +168,9 @@ body {
     align-items: flex-start;
     overflow-y: scroll;
     background: $main-font;
+    .selected_sticker {
+      background: rgba(0, 0, 0, 0.2);
+    }
     .menu_item {
       margin: 1em;
       height: 75px;
@@ -260,6 +263,7 @@ body {
   border-radius: 100%;
   @include x-y-flex-center;
 }
+
 .tool_menu_item {
   position: fixed;
   left: 6em;
@@ -292,6 +296,15 @@ body {
     span {
       color: $main-font;
       margin-top: auto;
+    }
+  }
+
+  .info_options {
+    color: #eee;
+    justify-content: flex-start;
+
+    h3 {
+      margin: 0;
     }
   }
 }
@@ -327,6 +340,11 @@ body {
       text-align: center;
     }
   }
+}
+
+.paint_options {
+  flex-direction: row !important;
+  justify-content: space-around !important;
 }
 
 /* NEWADDEDTEXT */

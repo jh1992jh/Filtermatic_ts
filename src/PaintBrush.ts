@@ -34,7 +34,6 @@ export class PaintBrush {
     };
 
     "mousedown mouseup mousemove mouseleave".split(" ").map(name => {
-      console.log("Adding listener " + name + " to canvas");
       this.canvas.addEventListener(name, handleEvent, false);
     });
 
