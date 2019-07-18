@@ -13,7 +13,10 @@ export class PaintBrush {
     HTMLInputElement
   >(".change_bc");
 
-  constructor(public canvas: HTMLCanvasElement, public ctx: any) {}
+  constructor(
+    public canvas: HTMLCanvasElement,
+    public ctx: CanvasRenderingContext2D
+  ) {}
 
   addListeners = (): void => {
     const handleEvent = (e: Event): void => {

@@ -4,7 +4,7 @@ export class Filters {
   constructor(
     public filters: IFilter[],
     public selectedFilter: IFilter,
-    public ctx: any
+    public ctx: CanvasRenderingContext2D
   ) {}
 
   setupFilterMenu = (): void => {

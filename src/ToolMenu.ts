@@ -37,10 +37,9 @@ export class ToolMenu {
     const closeBtns = document.querySelectorAll(".close_toolmenu");
 
     closeBtns.forEach(button => {
-      button.addEventListener(
-        "click",
-        (e: any) => (e.target.parentElement.style.display = "none")
-      );
+      button.addEventListener("click", (e: any) => {
+        e.target.parentElement.style.display = "none";
+      });
     });
   };
 

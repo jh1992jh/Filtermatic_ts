@@ -101,7 +101,7 @@ class Canvas<T extends HTMLCanvasElement> {
       link.innerHTML = "Download image";
 
       const { left, top } = saveCanvas.getBoundingClientRect();
-      console.log("left: " + left, "top: " + top);
+
       const addedStickers = this.Stickers.addedStickers;
       const addedTexts = this.Text.addedText;
 
@@ -156,11 +156,9 @@ class Canvas<T extends HTMLCanvasElement> {
   };
 }
 
-if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
-  const ctx = canvas.getContext("2d");
+if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn && ctx) {
   const NewCanvas = new Canvas<HTMLCanvasElement>(
     canvas,
-
     new Stickers(stickers, stickers[0], ctx, canvas),
     new Filters(filters, filters[0], ctx),
     new PaintBrush(canvas, ctx),
@@ -179,7 +177,6 @@ if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
 
   imgInput.addEventListener("change", NewCanvas.uploadImg);
 
-  canvas.addEventListener("click", () => console.log("clickin"));
   addStickerBtn.addEventListener("click", () => {
     NewCanvas.Stickers.addSticker();
   });

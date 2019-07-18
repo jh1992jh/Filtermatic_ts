@@ -70,7 +70,6 @@ var Canvas = /** @class */ (function () {
                 var link_1 = document.createElement("a");
                 link_1.innerHTML = "Download image";
                 var _a = saveCanvas.getBoundingClientRect(), left = _a.left, top_1 = _a.top;
-                console.log("left: " + left, "top: " + top_1);
                 var addedStickers_1 = _this.Stickers.addedStickers;
                 var addedTexts = _this.Text.addedText;
                 if (saveCtx_1 && addedStickers_1.length > 0) {
@@ -110,9 +109,8 @@ var Canvas = /** @class */ (function () {
     }
     return Canvas;
 }());
-if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
-    var ctx_1 = canvas.getContext("2d");
-    var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx_1, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx_1), new PaintBrush_1.PaintBrush(canvas, ctx_1), new Text_1.Text(canvas, ctx_1));
+if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn && ctx) {
+    var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx), new PaintBrush_1.PaintBrush(canvas, ctx), new Text_1.Text(canvas, ctx));
     var toolMenu = new ToolMenu_1.ToolMenu();
     NewCanvas_1.Text.addListeners();
     NewCanvas_1.setupCanvas();
@@ -122,7 +120,6 @@ if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
     NewCanvas_1.addListeners();
     toolMenu.addListeners();
     imgInput.addEventListener("change", NewCanvas_1.uploadImg);
-    canvas.addEventListener("click", function () { return console.log("clickin"); });
     addStickerBtn.addEventListener("click", function () {
         NewCanvas_1.Stickers.addSticker();
     });

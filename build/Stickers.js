@@ -28,11 +28,11 @@ var Stickers = /** @class */ (function () {
         this.addListeners = function () {
             var handleEvent = function (e) {
                 switch (e.type) {
-                    case "click":
-                        _this.selectModiefiedSticker(e);
-                        break;
                     case "dblclick":
                         _this.deleteSticker(e);
+                        break;
+                    case "click":
+                        _this.selectModiefiedSticker(e);
                         break;
                     case "mousemove":
                         _this.moveSticker(e);
@@ -43,8 +43,7 @@ var Stickers = /** @class */ (function () {
                         break;
                     case "mouseup":
                         _this.dragging = false;
-                        var id = e.target.id;
-                        _this.updateStickerCords(e, id);
+                        _this.updateStickerCords(e, e.target.id);
                         break;
                     case "mouseleave":
                         _this.dragging = false;
@@ -70,7 +69,7 @@ var Stickers = /** @class */ (function () {
                 });
             }
             var parentStickerElement = e.target.parentElement;
-            if (e.target) {
+            if (e.target && parentStickerElement) {
                 if (parentStickerElement.classList.contains("menu_sticker")) {
                     parentStickerElement.classList.add("selected_sticker");
                 }
@@ -106,7 +105,6 @@ var Stickers = /** @class */ (function () {
             var sticker = e.target;
             var mouseX = e.clientX - sticker.width / 2;
             var mouseY = e.clientY - sticker.height / 2;
-            console.log(mouseX);
             var newStickers = _this.addedStickers.map(function (sticker) {
                 if (sticker.id === id) {
                     sticker.x = mouseX - left;
@@ -133,10 +131,8 @@ var Stickers = /** @class */ (function () {
             var _a = _this.canvas.getBoundingClientRect(), left = _a.left, top = _a.top;
             var canvasStickerCenterY = _this.canvas.height / 2 - _this.selectedSticker.height / 2;
             var canvasStikcerCenterX = _this.canvas.width / 2 - _this.selectedSticker.width / 2;
-            console.log(canvasStickerCenterY - top);
             stickerImg.style.top = canvasStickerCenterY - top + "px";
             stickerImg.style.left = left + canvasStikcerCenterX + "px";
-            console.log(stickerImg.style.top + " , " + stickerImg.style.left);
             var newSticker = __assign({}, _this.selectedSticker, { id: id, x: canvasStikcerCenterX + left, y: canvasStickerCenterY - top });
             _this.addedStickers.push(newSticker);
         };
@@ -206,17 +202,14 @@ var Stickers = /** @class */ (function () {
                 decBtn.addEventListener("click", function () { return _this.changeSize("dec"); });
                 close_1.addEventListener("click", function () { return modifyModal_1.remove(); });
             }
-            console.log(targetSticker);
         };
         this.changeSize = function (change) {
-            // ADD FUNCTIONALITY TO CHANGE THE HEIGHT AND WIDTH VALUES LIVE ON THE DOM
             var stickerWidth = document.querySelector("#sticker_width");
             var stickerHeight = document.querySelector("#sticker_height");
             var sticker = document.querySelector("#" + _this.modifiedSticker.id);
             if (change === "inc" && sticker && stickerWidth && stickerHeight) {
                 var width = _this.modifiedSticker.width;
                 var height = _this.modifiedSticker.height;
-                console.log(sticker.offsetWidth, width);
                 if (width > height) {
                     var ratio = width / height;
                     _this.modifiedSticker.width += 3;
@@ -226,10 +219,8 @@ var Stickers = /** @class */ (function () {
                 stickerHeight.textContent = "height: " + height.toFixed().toString();
                 sticker.style.height = _this.modifiedSticker.height + "px";
                 sticker.style.width = _this.modifiedSticker.width + "px";
-                console.log(_this.modifiedSticker, _this.addedStickers);
             }
             if (change === "dec" && sticker && stickerWidth && stickerHeight) {
-                // COMPRE STICEKR HEIGHT && WIDTH CALC RATIO change according to bugger aka 10 / 5, height +2 width +1
                 _this.modifiedSticker.height -= 3;
                 _this.modifiedSticker.width -= 3;
                 var width = _this.modifiedSticker.width.toString();

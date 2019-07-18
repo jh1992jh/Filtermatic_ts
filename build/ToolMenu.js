@@ -25,7 +25,9 @@ var ToolMenu = /** @class */ (function () {
                 });
             var closeBtns = document.querySelectorAll(".close_toolmenu");
             closeBtns.forEach(function (button) {
-                button.addEventListener("click", function (e) { return (e.target.parentElement.style.display = "none"); });
+                button.addEventListener("click", function (e) {
+                    e.target.parentElement.style.display = "none";
+                });
             });
         };
         this.toggleToolMenu = function (e) {

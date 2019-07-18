@@ -19,11 +19,9 @@ var Text = /** @class */ (function () {
             var handleEvent = function (e) {
                 switch (e.type) {
                     case "click":
-                        console.log("Hey you clicked " + e.target);
                         break;
                     case "mousedown":
                         _this.dragging = true;
-                        console.log(_this.dragging);
                         break;
                     case "mouseup":
                         _this.dragging = false;
@@ -109,7 +107,6 @@ var Text = /** @class */ (function () {
             var mouseX = e.clientX;
             var mouseY = e.clientY;
             var text = e.target;
-            console.log(text.offsetHeight, text.offsetWidth);
             if (text && _this.dragging) {
                 text.style.left = mouseX - text.offsetWidth / 2 + "px";
                 text.style.top = mouseY - text.offsetHeight / 2 + "px";

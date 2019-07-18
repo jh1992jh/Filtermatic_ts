@@ -405,13 +405,13 @@ function () {
     this.addListeners = function () {
       var handleEvent = function handleEvent(e) {
         switch (e.type) {
-          case "click":
-            _this.selectModiefiedSticker(e);
+          case "dblclick":
+            _this.deleteSticker(e);
 
             break;
 
-          case "dblclick":
-            _this.deleteSticker(e);
+          case "click":
+            _this.selectModiefiedSticker(e);
 
             break;
 
@@ -429,9 +429,8 @@ function () {
 
           case "mouseup":
             _this.dragging = false;
-            var id = e.target.id;
 
-            _this.updateStickerCords(e, id);
+            _this.updateStickerCords(e, e.target.id);
 
             break;
 
@@ -465,7 +464,7 @@ function () {
 
       var parentStickerElement = e.target.parentElement;
 
-      if (e.target) {
+      if (e.target && parentStickerElement) {
         if (parentStickerElement.classList.contains("menu_sticker")) {
           parentStickerElement.classList.add("selected_sticker");
         }
@@ -514,7 +513,6 @@ function () {
       var sticker = e.target;
       var mouseX = e.clientX - sticker.width / 2;
       var mouseY = e.clientY - sticker.height / 2;
-      console.log(mouseX);
 
       var newStickers = _this.addedStickers.map(function (sticker) {
         if (sticker.id === id) {
@@ -550,10 +548,8 @@ function () {
 
       var canvasStickerCenterY = _this.canvas.height / 2 - _this.selectedSticker.height / 2;
       var canvasStikcerCenterX = _this.canvas.width / 2 - _this.selectedSticker.width / 2;
-      console.log(canvasStickerCenterY - top);
       stickerImg.style.top = canvasStickerCenterY - top + "px";
       stickerImg.style.left = left + canvasStikcerCenterX + "px";
-      console.log(stickerImg.style.top + " , " + stickerImg.style.left);
 
       var newSticker = __assign({}, _this.selectedSticker, {
         id: id,
@@ -650,12 +646,9 @@ function () {
           return modifyModal_1.remove();
         });
       }
-
-      console.log(targetSticker);
     };
 
     this.changeSize = function (change) {
-      // ADD FUNCTIONALITY TO CHANGE THE HEIGHT AND WIDTH VALUES LIVE ON THE DOM
       var stickerWidth = document.querySelector("#sticker_width");
       var stickerHeight = document.querySelector("#sticker_height");
       var sticker = document.querySelector("#" + _this.modifiedSticker.id);
@@ -663,7 +656,6 @@ function () {
       if (change === "inc" && sticker && stickerWidth && stickerHeight) {
         var width = _this.modifiedSticker.width;
         var height = _this.modifiedSticker.height;
-        console.log(sticker.offsetWidth, width);
 
         if (width > height) {
           var ratio = width / height;
@@ -675,11 +667,9 @@ function () {
         stickerHeight.textContent = "height: " + height.toFixed().toString();
         sticker.style.height = _this.modifiedSticker.height + "px";
         sticker.style.width = _this.modifiedSticker.width + "px";
-        console.log(_this.modifiedSticker, _this.addedStickers);
       }
 
       if (change === "dec" && sticker && stickerWidth && stickerHeight) {
-        // COMPRE STICEKR HEIGHT && WIDTH CALC RATIO change according to bugger aka 10 / 5, height +2 width +1
         _this.modifiedSticker.height -= 3;
         _this.modifiedSticker.width -= 3;
 
@@ -965,7 +955,7 @@ function () {
       var closeBtns = document.querySelectorAll(".close_toolmenu");
       closeBtns.forEach(function (button) {
         button.addEventListener("click", function (e) {
-          return e.target.parentElement.style.display = "none";
+          e.target.parentElement.style.display = "none";
         });
       });
     };
@@ -1025,12 +1015,10 @@ function () {
       var handleEvent = function handleEvent(e) {
         switch (e.type) {
           case "click":
-            console.log("Hey you clicked " + e.target);
             break;
 
           case "mousedown":
             _this.dragging = true;
-            console.log(_this.dragging);
             break;
 
           case "mouseup":
@@ -1132,7 +1120,6 @@ function () {
       var mouseX = e.clientX;
       var mouseY = e.clientY;
       var text = e.target;
-      console.log(text.offsetHeight, text.offsetWidth);
 
       if (text && _this.dragging) {
         text.style.left = mouseX - text.offsetWidth / 2 + "px";
@@ -1286,7 +1273,6 @@ function () {
             left = _a.left,
             top = _a.top;
 
-        console.log("left: " + left, "top: " + top);
         var addedStickers_1 = _this.Stickers.addedStickers;
         var addedTexts = _this.Text.addedText;
 
@@ -1333,9 +1319,8 @@ function () {
   return Canvas;
 }();
 
-if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
-  var ctx_1 = canvas.getContext("2d");
-  var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx_1, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx_1), new PaintBrush_1.PaintBrush(canvas, ctx_1), new Text_1.Text(canvas, ctx_1));
+if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn && ctx) {
+  var NewCanvas_1 = new Canvas(canvas, new Stickers_1.Stickers(index_1.stickers, index_1.stickers[0], ctx, canvas), new Filters_1.Filters(filters_1.filters, filters_1.filters[0], ctx), new PaintBrush_1.PaintBrush(canvas, ctx), new Text_1.Text(canvas, ctx));
   var toolMenu = new ToolMenu_1.ToolMenu();
   NewCanvas_1.Text.addListeners();
   NewCanvas_1.setupCanvas();
@@ -1345,9 +1330,6 @@ if (canvas && imgInput && addTextBtn && addStickerBtn && addFilterBtn) {
   NewCanvas_1.addListeners();
   toolMenu.addListeners();
   imgInput.addEventListener("change", NewCanvas_1.uploadImg);
-  canvas.addEventListener("click", function () {
-    return console.log("clickin");
-  });
   addStickerBtn.addEventListener("click", function () {
     NewCanvas_1.Stickers.addSticker();
   });
@@ -1383,7 +1365,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63214" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65196" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -30,7 +30,10 @@ export class Text {
   textSize: number = 16;
   textColor: string = "#ffffff";
 
-  constructor(public canvas: HTMLCanvasElement, public ctx: any) {}
+  constructor(
+    public canvas: HTMLCanvasElement,
+    public ctx: CanvasRenderingContext2D
+  ) {}
 
   addListeners = () => {
     if (this.addTextBtn) {
@@ -40,12 +43,11 @@ export class Text {
     const handleEvent = (e: Event): void => {
       switch (e.type) {
         case "click":
-          console.log("Hey you clicked " + e.target);
           break;
 
         case "mousedown":
           this.dragging = true;
-          console.log(this.dragging);
+
           break;
         case "mouseup":
           this.dragging = false;
@@ -149,8 +151,8 @@ export class Text {
   moveText = (e: MouseEvent): void => {
     const mouseX = e.clientX;
     const mouseY = e.clientY;
-    const text: any = e.target;
-    console.log(text.offsetHeight, text.offsetWidth);
+    const text = e.target as HTMLDivElement;
+
     if (text && this.dragging) {
       text.style.left = `${mouseX - text.offsetWidth / 2}px`;
       text.style.top = `${mouseY - text.offsetHeight / 2}px`;

@@ -1,6 +1,8 @@
 import { ID } from "./helpers/randomId";
 import { stickers as originalStickers } from "./stickers/index";
 
+type CustomEvent = Event & MouseEvent;
+
 interface ISticker {
   title: string;
   src: string;
@@ -21,31 +23,30 @@ export class Stickers {
   constructor(
     public stickers: ISticker[],
     public selectedSticker: ISticker,
-    public ctx: any,
+    public ctx: CanvasRenderingContext2D,
     public canvas: HTMLCanvasElement
   ) {}
 
   addListeners = () => {
-    const handleEvent = (e: any): void => {
+    const handleEvent = (e: Event): void => {
       switch (e.type) {
-        case "click":
-          this.selectModiefiedSticker(e);
-          break;
         case "dblclick":
-          this.deleteSticker(e);
+          this.deleteSticker(<CustomEvent>e);
+          break;
+        case "click":
+          this.selectModiefiedSticker(<CustomEvent>e);
           break;
         case "mousemove":
-          this.moveSticker(e);
+          this.moveSticker(<CustomEvent>e);
           break;
         case "mousedown":
           this.dragging = true;
 
-          this.updateStickerCords(e, e.target.id);
+          this.updateStickerCords(<CustomEvent>e, (e.target as Element).id);
           break;
         case "mouseup":
           this.dragging = false;
-          const id: string = e.target.id;
-          this.updateStickerCords(e, id);
+          this.updateStickerCords(<CustomEvent>e, (e.target as Element).id);
 
           break;
         case "mouseleave":
@@ -77,8 +78,8 @@ export class Stickers {
       });
     }
 
-    const parentStickerElement: any = (e.target as Element).parentElement;
-    if (e.target as Element) {
+    const parentStickerElement = (e.target as Element).parentElement;
+    if ((e.target as Element) && parentStickerElement) {
       if (parentStickerElement.classList.contains("menu_sticker")) {
         parentStickerElement.classList.add("selected_sticker");
       }
@@ -130,7 +131,6 @@ export class Stickers {
 
     const mouseX = e.clientX - sticker.width / 2;
     const mouseY = e.clientY - sticker.height / 2;
-    console.log(mouseX);
 
     const newStickers = this.addedStickers.map(
       (sticker: ISticker): ISticker => {
@@ -168,10 +168,9 @@ export class Stickers {
     const canvasStikcerCenterX =
       this.canvas.width / 2 - this.selectedSticker.width / 2;
 
-    console.log(canvasStickerCenterY - top);
     stickerImg.style.top = `${canvasStickerCenterY - top}px`;
     stickerImg.style.left = `${left + canvasStikcerCenterX}px`;
-    console.log(stickerImg.style.top + " , " + stickerImg.style.left);
+
     const newSticker = {
       ...this.selectedSticker,
       id: id,
@@ -204,7 +203,7 @@ export class Stickers {
       this.modifying = true;
 
       const { left, top } = this.canvas.getBoundingClientRect();
-      const modifyModal: any = document.createElement("div");
+      const modifyModal = document.createElement("div");
       const stickerImg = document.createElement("img");
       const infoList = document.createElement("ul");
       // Cant't loop trough the obj to get both value and key because ISticker has no property index type string, :(
@@ -238,7 +237,7 @@ export class Stickers {
       modifyModal.className = "sticker_modal";
       stickerImg.src = this.modifiedSticker.src;
 
-      const incBtn: any = document.createElement("button");
+      const incBtn = document.createElement("button");
       const decBtn = document.createElement("button");
 
       incBtn.textContent = "+";
@@ -267,11 +266,9 @@ export class Stickers {
       decBtn.addEventListener("click", () => this.changeSize("dec"));
       close.addEventListener("click", () => modifyModal.remove());
     }
-    console.log(targetSticker);
   };
 
   changeSize = (change: string): void => {
-    // ADD FUNCTIONALITY TO CHANGE THE HEIGHT AND WIDTH VALUES LIVE ON THE DOM
     const stickerWidth = document.querySelector("#sticker_width");
     const stickerHeight = document.querySelector("#sticker_height");
 
@@ -281,7 +278,7 @@ export class Stickers {
     if (change === "inc" && sticker && stickerWidth && stickerHeight) {
       const width = this.modifiedSticker.width;
       const height = this.modifiedSticker.height;
-      console.log(sticker.offsetWidth, width);
+
       if (width > height) {
         const ratio = width / height;
         this.modifiedSticker.width += 3;
@@ -293,11 +290,9 @@ export class Stickers {
 
       sticker.style.height = `${this.modifiedSticker.height}px`;
       sticker.style.width = `${this.modifiedSticker.width}px`;
-      console.log(this.modifiedSticker, this.addedStickers);
     }
 
     if (change === "dec" && sticker && stickerWidth && stickerHeight) {
-      // COMPRE STICEKR HEIGHT && WIDTH CALC RATIO change according to bugger aka 10 / 5, height +2 width +1
       this.modifiedSticker.height -= 3;
       this.modifiedSticker.width -= 3;
 
