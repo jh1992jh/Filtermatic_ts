@@ -52,6 +52,14 @@ body {
   font-weight: 600;
 }
 
+.sticker_modal .delete_icon {
+  color: red;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  cursor: pointer;
+}
+
 .sticker_modal img {
   max-width: 50% !important;
   width: auto;

@@ -140,6 +140,8 @@ var Stickers = /** @class */ (function () {
             var id = e.target.id;
             _this.addedStickers = _this.addedStickers.filter(function (sticker) { return sticker.id !== id; });
             e.target.remove();
+            var prevModifyModal = document.querySelector(".sticker_modal");
+            prevModifyModal && prevModifyModal.remove();
         };
         this.selectModiefiedSticker = function (e) {
             var targetSticker = _this.addedStickers.filter(function (sticker) {
@@ -182,10 +184,13 @@ var Stickers = /** @class */ (function () {
                 stickerImg.src = _this.modifiedSticker.src;
                 var incBtn = document.createElement("button");
                 var decBtn = document.createElement("button");
+                var delIcon = document.createElement("i");
                 incBtn.textContent = "+";
                 decBtn.textContent = "-";
+                delIcon.className = "delete_icon fas fa-trash-alt";
                 incBtn.className = "size_btn";
                 decBtn.className = "size_btn";
+                modifyModal_1.appendChild(delIcon);
                 modifyModal_1.appendChild(stickerImg);
                 modifyModal_1.appendChild(infoList_1);
                 modifyModal_1.appendChild(close_1);
@@ -201,6 +206,7 @@ var Stickers = /** @class */ (function () {
                 incBtn.addEventListener("click", function () { return _this.changeSize("inc"); });
                 decBtn.addEventListener("click", function () { return _this.changeSize("dec"); });
                 close_1.addEventListener("click", function () { return modifyModal_1.remove(); });
+                delIcon.addEventListener("click", function () { return _this.deleteSticker(e); });
             }
         };
         this.changeSize = function (change) {

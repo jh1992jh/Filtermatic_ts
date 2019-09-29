@@ -566,6 +566,8 @@ function () {
         return sticker.id !== id;
       });
       e.target.remove();
+      var prevModifyModal = document.querySelector(".sticker_modal");
+      prevModifyModal && prevModifyModal.remove();
     };
 
     this.selectModiefiedSticker = function (e) {
@@ -620,10 +622,13 @@ function () {
         stickerImg.src = _this.modifiedSticker.src;
         var incBtn = document.createElement("button");
         var decBtn = document.createElement("button");
+        var delIcon = document.createElement("i");
         incBtn.textContent = "+";
         decBtn.textContent = "-";
+        delIcon.className = "delete_icon fas fa-trash-alt";
         incBtn.className = "size_btn";
         decBtn.className = "size_btn";
+        modifyModal_1.appendChild(delIcon);
         modifyModal_1.appendChild(stickerImg);
         modifyModal_1.appendChild(infoList_1);
         modifyModal_1.appendChild(close);
@@ -644,6 +649,9 @@ function () {
         });
         close.addEventListener("click", function () {
           return modifyModal_1.remove();
+        });
+        delIcon.addEventListener("click", function () {
+          return _this.deleteSticker(e);
         });
       }
     };
@@ -1365,7 +1373,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65196" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55025" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

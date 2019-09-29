@@ -94,8 +94,8 @@ export class Text {
     );
 
     changeColor &&
-      changeColor.addEventListener("change", (e: any) => {
-        this.changeTextColor(e.target.value);
+      changeColor.addEventListener("change", (e: Event) => {
+        this.changeTextColor((e.target as HTMLInputElement).value);
       });
   };
 

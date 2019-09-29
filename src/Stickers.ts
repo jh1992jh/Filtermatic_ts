@@ -187,6 +187,9 @@ export class Stickers {
       (sticker: ISticker) => sticker.id !== id
     );
     (e.target as Element).remove();
+
+    const prevModifyModal = document.querySelector(".sticker_modal");
+    prevModifyModal && prevModifyModal.remove();
   };
 
   selectModiefiedSticker = (e: MouseEvent): void => {
@@ -239,13 +242,18 @@ export class Stickers {
 
       const incBtn = document.createElement("button");
       const decBtn = document.createElement("button");
+      const delIcon = document.createElement("i");
+
+
 
       incBtn.textContent = "+";
       decBtn.textContent = "-";
-
+      
+      delIcon.className = "delete_icon fas fa-trash-alt"
       incBtn.className = "size_btn";
       decBtn.className = "size_btn";
 
+      modifyModal.appendChild(delIcon)
       modifyModal.appendChild(stickerImg);
       modifyModal.appendChild(infoList);
       modifyModal.appendChild(close);
@@ -265,6 +273,7 @@ export class Stickers {
       incBtn.addEventListener("click", () => this.changeSize("inc"));
       decBtn.addEventListener("click", () => this.changeSize("dec"));
       close.addEventListener("click", () => modifyModal.remove());
+      delIcon.addEventListener("click", () => this.deleteSticker(<CustomEvent>e));
     }
   };
 
